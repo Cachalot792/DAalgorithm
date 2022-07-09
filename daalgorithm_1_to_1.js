@@ -1,9 +1,9 @@
-var templateA = {
+const templateA = {
     name:"M",
     member:[1,2,3],
     preference:[[4,5,7,0,6],[5,6,4,0,7],[4,7,0,6,5]]
 };
-var templateB = {
+const templateB = {
     name:"W",
     member:[4,5,6,7],
     preference:[[3,2,1,0],[3,1,2,0],[3,1,0,2],[1,2,0,3]]
@@ -11,12 +11,12 @@ var templateB = {
 
 //当アルゴリズム内では空集合は0しか受け付けない
 function DeferredAcceptanceAlgorithm(activeGroupMemberArray,activeGroupPreferenceArray,passiveGroupMemberArray,passiveGroupPreferenceArray) {
-    var activeGroupMemberCount = activeGroupMemberArray.length;
-    var passiveGroupMemberCount = passiveGroupMemberArray.length;
-    var passiveGroupKeepRankArray = new Array(passiveGroupMemberCount)
-    var isSucceededMatchingArray = new Array(activeGroupMemberCount).fill(false);
-    var tryMatchingTimesArray = new Array(activeGroupMemberCount).fill(0);
-    var activeGroupMatchingPersonRankArray = new Array(activeGroupMemberCount).fill(0);
+    const activeGroupMemberCount = activeGroupMemberArray.length;
+    const passiveGroupMemberCount = passiveGroupMemberArray.length;
+    let passiveGroupKeepRankArray = new Array(passiveGroupMemberCount)
+    let isSucceededMatchingArray = new Array(activeGroupMemberCount).fill(false);
+    let tryMatchingTimesArray = new Array(activeGroupMemberCount).fill(0);
+    let activeGroupMatchingPersonRankArray = new Array(activeGroupMemberCount).fill(0);
 
     //アプローチされる側の空集合の希望順位を探して格納
     for(i=0;i<passiveGroupMemberCount;i++){
@@ -30,20 +30,20 @@ function DeferredAcceptanceAlgorithm(activeGroupMemberArray,activeGroupPreferenc
             console.log(i + ":" + isSucceededMatchingArray);
             //まだマッチングが完了していない場合に処理する
             if(isSucceededMatchingArray[i] == false){
-                var chosenPersonName = activeGroupPreferenceArray[i][tryMatchingTimesArray[i]];  //選ばれた人の名前
+                const chosenPersonName = activeGroupPreferenceArray[i][tryMatchingTimesArray[i]];  //選ばれた人の名前
                 //①選ばれた人の名前が空集合ならマッチング成功(終了)&ループ抜け出し
                 if(chosenPersonName == 0){
                 activeGroupMatchingPersonRankArray[i] = tryMatchingTimesArray[i]; //希望順位何位の人とマッチングできたか保持
                 isSucceededMatchingArray[i] = true;
                 break;
                 };
-                var chosenPersonPosition = passiveGroupMemberArray.indexOf(chosenPersonName); //選ばれた側の人がメンバー配列で何番目か
-                var approarchPersonName = activeGroupMemberArray[i];  //選んだ側（アプローチした側）の人の名前
-                var approarchPersonRank = passiveGroupPreferenceArray[chosenPersonPosition].indexOf(approarchPersonName); //選んだ人の選ばれた人にとっての希望順位
+                const chosenPersonPosition = passiveGroupMemberArray.indexOf(chosenPersonName); //選ばれた側の人がメンバー配列で何番目か
+                const approarchPersonName = activeGroupMemberArray[i];  //選んだ側（アプローチした側）の人の名前
+                const approarchPersonRank = passiveGroupPreferenceArray[chosenPersonPosition].indexOf(approarchPersonName); //選んだ人の選ばれた人にとっての希望順位
                 //②選ばれた人にとってその人を選ぶことが現キープより良い選択ならマッチング成功&試行回数+1&ループ抜け出し
                 if(approarchPersonRank < passiveGroupKeepRankArray[chosenPersonPosition]){
                 //選ばれた人の元キープの名前が空集合で無かった場合、元キープのマッチングを未完了に変更
-                var chosenPearsonKeepName = passiveGroupPreferenceArray[chosenPersonPosition][passiveGroupKeepRankArray[chosenPersonPosition]];
+                const chosenPearsonKeepName = passiveGroupPreferenceArray[chosenPersonPosition][passiveGroupKeepRankArray[chosenPersonPosition]];
                 if(chosenPearsonKeepName != 0){
                     isSucceededMatchingArray[activeGroupMemberArray.indexOf(chosenPearsonKeepName)] = false;
                 }
