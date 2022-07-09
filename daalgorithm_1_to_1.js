@@ -8,8 +8,8 @@ var templateB = {
     member:[4,5,6,7],
     preference:[[3,2,1,0],[3,1,2,0],[3,1,0,2],[1,2,0,3]]
 };
-//希望表の記入漏れチェック等は別の関数で前もって調べておく
-//当アルゴリズム内では空集合は0しか受け付けないので事前に空集合を0に置換しておく必要がある(記入漏れチェック時に対応可能)
+
+//当アルゴリズム内では空集合は0しか受け付けない
 function DeferredAcceptanceAlgorithm(activeGroupMemberArray,activeGroupPreferenceArray,passiveGroupMemberArray,passiveGroupPreferenceArray) {
     var activeGroupMemberCount = activeGroupMemberArray.length;
     var passiveGroupMemberCount = passiveGroupMemberArray.length;
@@ -25,13 +25,11 @@ function DeferredAcceptanceAlgorithm(activeGroupMemberArray,activeGroupPreferenc
 
     //アプローチ側全員がマッチング終了するまで続ける
     do{
-    //アプローチ側のメンバーそれぞれについて↓
-    for(i=0;i<activeGroupMemberCount;i++){
-        console.log(i + ":" + isSucceededMatchingArray);
-        //まだマッチングが完了していない場合に処理する
-        if(isSucceededMatchingArray[i] == false){
-        //その人がマッチング完了するまで続ける
-            for(j=1;j<=passiveGroupMemberCount+1;j++){
+        //アプローチ側のメンバーそれぞれについて↓
+        for(i=0;i<activeGroupMemberCount;i++){
+            console.log(i + ":" + isSucceededMatchingArray);
+            //まだマッチングが完了していない場合に処理する
+            if(isSucceededMatchingArray[i] == false){
                 var chosenPersonName = activeGroupPreferenceArray[i][tryMatchingTimesArray[i]];  //選ばれた人の名前
                 //①選ばれた人の名前が空集合ならマッチング成功(終了)&ループ抜け出し
                 if(chosenPersonName == 0){
@@ -60,8 +58,8 @@ function DeferredAcceptanceAlgorithm(activeGroupMemberArray,activeGroupPreferenc
                 };
             };
         };
-    };
     }while(isSucceededMatchingArray.filter(boolean => boolean == true).length < activeGroupMemberCount);
+    //マッチング結果出力
     for(i=0;i<activeGroupMemberCount;i++){
     console.log("「" + activeGroupMemberArray[i] + "」は希望順位" + (activeGroupMatchingPersonRankArray[i] + 1) + "位の「"　+ activeGroupPreferenceArray[i][activeGroupMatchingPersonRankArray[i]] + "」とマッチング");
     };
